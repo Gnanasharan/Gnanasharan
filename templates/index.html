@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}FreelanceHub - Home{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 0;">
+    <h1 style="font-size: 3rem; color: #2c3e50; margin-bottom: 20px;">Welcome to FreelanceHub</h1>
+    <p style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 40px;">
+        Connect with talented freelancers or find your next project
+    </p>
+    
+    {% if not session.user_id %}
+        <div class="dashboard-grid" style="max-width: 800px; margin: 0 auto;">
+            <div class="dashboard-card" style="text-align: center;">
+                <h3>For Clients</h3>
+                <p>Post your projects and hire skilled freelancers</p>
+                <a href="{{ url_for('register') }}" class="btn">Register as Client</a>
+            </div>
+            
+            <div class="dashboard-card" style="text-align: center;">
+                <h3>For Freelancers</h3>
+                <p>Find exciting projects and grow your career</p>
+                <a href="{{ url_for('freelancer_register') }}" class="btn">Join as Freelancer</a>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+        </div>
+    {% else %}
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <h2>Welcome back, {{ session.username }}!</h2>
+            {% if session.role == 'user' %}
+                <p>Ready to post a new project or manage your existing ones?</p>
+                <a href="{{ url_for('user_dashboard') }}" class="btn">Go to Dashboard</a>
+                <a href="{{ url_for('add_project') }}" class="btn">Add New Project</a>
+            {% elif session.role == 'freelancer' %}
+                <p>Ready to find your next project?</p>
+                <a href="{{ url_for('freelancer_dashboard') }}" class="btn">Go to Dashboard</a>
+                <a href="{{ url_for('browse_projects') }}" class="btn">Browse Projects</a>
+            {% elif session.role == 'admin' %}
+                <p>Welcome to the admin panel.</p>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn">Go to Admin Dashboard</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="dashboard-grid" style="margin-top: 50px;">
+    <div class="dashboard-card">
+        <h3>🚀 Easy Project Posting</h3>
+        <p>Clients can quickly post projects with detailed descriptions and budgets to attract the right freelancers.</p>
+    </div>
+    
+    <div class="dashboard-card">
+        <h3>💼 Skilled Freelancers</h3>
+        <p>All freelancers are verified by our admin team to ensure quality and professionalism.</p>
+    </div>
+    
+    <div class="dashboard-card">
+        <h3>⭐ Review System</h3>
+        <p>Our comprehensive review system helps maintain quality and build trust between clients and freelancers.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Place Bid - FreelanceHub{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 30px;">Place Your Bid</h1>
+
+<div class="card" style="margin-bottom: 30px;">
+    <div class="card-header">
+        Project: {{ project.title }}
+    </div>
+    <div class="card-body">
+        <p class="project-meta">Posted by: {{ project.client_name }}</p>
+        <p style="margin: 15px 0;"><strong>Description:</strong></p>
+        <p>{{ project.description }}</p>
+        <p class="budget" style="margin-top: 15px;">Client's Budget: ${{ "%.2f"|format(project.budget) }}</p>
+    </div>
+</div>
+
+<div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Submit Your Proposal</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="bid_amount">Your Bid Amount ($):</label>
+            <input type="number" name="bid_amount" id="bid_amount" step="0.01" min="1" required 
+                   placeholder="Enter your bid amount">
+            <small style="color: #7f8c8d;">Consider the project complexity and your expertise</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="timeline">Estimated Timeline:</label>
+            <input type="text" name="timeline" id="timeline" required 
+                   placeholder="e.g., 2 weeks, 1 month, 10 days">
+            <small style="color: #7f8c8d;">How long will it take you to complete this project?</small>
+        </div>
+        
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="Submit Bid" class="btn">
+            <a href="{{ url_for('browse_projects') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background-color: #e8f4f8; border-radius: 8px;">
+        <h4 style="color: #2c3e50; margin-bottom: 10px;">Bidding Guidelines</h4>
+        <ul style="color: #7f8c8d; margin-left: 20px;">
+            <li>Be competitive but ensure your bid covers your costs and time</li>
+            <li>Provide a realistic timeline that you can commit to</li>
+            <li>Consider the project scope and complexity</li>
+            <li>Your bid will be visible to the client along with other proposals</li>
+            <li>You can only place one bid per project</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

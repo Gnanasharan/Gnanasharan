@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Add Review - FreelanceHub{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 30px;">Add Review</h1>
+
+<div class="card" style="margin-bottom: 30px;">
+    <div class="card-header">
+        Project: {{ project.title }}
+    </div>
+    <div class="card-body">
+        <p class="project-meta">Freelancer: {{ project.freelancer_name }}</p>
+        <p style="margin: 15px 0;"><strong>Description:</strong></p>
+        <p>{{ project.description }}</p>
+        <p class="budget" style="margin-top: 15px;">Budget: ${{ "%.2f"|format(project.budget) }}</p>
+    </div>
+</div>
+
+<div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Rate Your Experience</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="rating">Rating (1-5 stars):</label>
+            <select name="rating" id="rating" required>
+                <option value="">Select Rating</option>
+                <option value="5">⭐⭐⭐⭐⭐ (5) - Excellent</option>
+                <option value="4">⭐⭐⭐⭐☆ (4) - Good</option>
+                <option value="3">⭐⭐⭐☆☆ (3) - Average</option>
+                <option value="2">⭐⭐☆☆☆ (2) - Below Average</option>
+                <option value="1">⭐☆☆☆☆ (1) - Poor</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="feedback">Feedback:</label>
+            <textarea name="feedback" id="feedback" required 
+                      placeholder="Share your experience working with this freelancer. How was the quality of work, communication, and timeliness?"></textarea>
+        </div>
+        
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="Submit Review" class="btn">
+            <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background-color: #e8f4f8; border-radius: 8px;">
+        <h4 style="color: #2c3e50; margin-bottom: 10px;">Review Guidelines</h4>
+        <ul style="color: #7f8c8d; margin-left: 20px;">
+            <li>Be honest and constructive in your feedback</li>
+            <li>Consider the quality of work, communication, and timeliness</li>
+            <li>Help other clients make informed decisions</li>
+            <li>Be professional and respectful in your comments</li>
+            <li>Your review will be visible to other users</li>
+        </ul>
+    </div>
+    
+    <div style="margin-top: 20px; padding: 20px; background-color: #d4edda; border-radius: 8px;">
+        <h4 style="color: #155724; margin-bottom: 10px;">Rating Scale</h4>
+        <ul style="color: #155724; margin-left: 20px;">
+            <li><strong>5 Stars:</strong> Exceptional work, exceeded expectations</li>
+            <li><strong>4 Stars:</strong> Good work, met expectations well</li>
+            <li><strong>3 Stars:</strong> Satisfactory work, met basic expectations</li>
+            <li><strong>2 Stars:</strong> Below expectations, some issues</li>
+            <li><strong>1 Star:</strong> Poor work, significant problems</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
