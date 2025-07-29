@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Freelancer Dashboard - FreelanceHub{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 30px;">Freelancer Dashboard</h1>
+
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <h3>Quick Actions</h3>
+        <a href="{{ url_for('browse_projects') }}" class="btn">Browse Projects</a>
+        <p style="margin-top: 15px; color: #7f8c8d;">
+            Find exciting projects and place your bids.
+        </p>
+    </div>
+    
+    <div class="dashboard-card">
+        <h3>Bid Statistics</h3>
+        <p><strong>Total Bids:</strong> {{ bids|length }}</p>
+        <p><strong>Pending Bids:</strong> {{ bids|selectattr('status', 'equalto', 'pending')|list|length }}</p>
+        <p><strong>Accepted Bids:</strong> {{ bids|selectattr('status', 'equalto', 'accepted')|list|length }}</p>
+    </div>
+</div>
+
+<h2 style="color: #2c3e50; margin: 40px 0 20px 0;">My Bids</h2>
+
+{% if bids %}
+    <table>
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Client</th>
+                <th>Project Budget</th>
+                <th>My Bid</th>
+                <th>Timeline</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bid in bids %}
+                <tr>
+                    <td><strong>{{ bid.project_title }}</strong></td>
+                    <td>{{ bid.client_name }}</td>
+                    <td class="budget">${{ "%.2f"|format(bid.project_budget) }}</td>
+                    <td class="budget">${{ "%.2f"|format(bid.bid_amount) }}</td>
+                    <td class="bid-timeline">{{ bid.timeline }}</td>
+                    <td><span class="status {{ bid.status }}">{{ bid.status|title }}</span></td>
+                    <td>
+                        {% if bid.status == 'accepted' %}
+                            <a href="{{ url_for('submit_project', project_id=bid.project_id) }}" class="btn btn-success">Submit Project</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h3>No bids yet</h3>
+            <p>Start browsing projects and place your first bid!</p>
+            <a href="{{ url_for('browse_projects') }}" class="btn">Browse Projects</a>
+        </div>
+    </div>
+{% endif %}
+
+<h2 style="color: #2c3e50; margin: 40px 0 20px 0;">Available Projects</h2>
+
+{% if available_projects %}
+    <p style="color: #7f8c8d; margin-bottom: 20px;">Here are some recent projects you might be interested in:</p>
+    {% for project in available_projects[:3] %}
+        <div class="card">
+            <div class="card-header">
+                {{ project.title }}
+                <span class="status open">Open</span>
+            </div>
+            <div class="card-body">
+                <p class="project-meta">Posted by: {{ project.client_name }}</p>
+                <p>{{ project.description[:200] }}{% if project.description|length > 200 %}...{% endif %}</p>
+                <p class="budget">Budget: ${{ "%.2f"|format(project.budget) }}</p>
+                
+                <div style="margin-top: 15px;">
+                    <a href="{{ url_for('place_bid', project_id=project.id) }}" class="btn">Place Bid</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('browse_projects') }}" class="btn btn-secondary">View All Projects</a>
+    </div>
+{% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h3>No projects available</h3>
+            <p>Check back later for new project opportunities!</p>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

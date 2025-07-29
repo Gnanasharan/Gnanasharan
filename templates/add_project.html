@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Add Project - FreelanceHub{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Add New Project</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Project Title:</label>
+            <input type="text" name="title" id="title" required 
+                   placeholder="Enter a clear, descriptive title for your project">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Project Description:</label>
+            <textarea name="description" id="description" required 
+                      placeholder="Describe your project requirements, deliverables, and any specific skills needed..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="budget">Budget ($):</label>
+            <input type="number" name="budget" id="budget" step="0.01" min="1" required 
+                   placeholder="Enter your budget for this project">
+        </div>
+        
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="Post Project" class="btn">
+            <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background-color: #e8f4f8; border-radius: 8px;">
+        <h4 style="color: #2c3e50; margin-bottom: 10px;">Tips for a Successful Project</h4>
+        <ul style="color: #7f8c8d; margin-left: 20px;">
+            <li>Be specific about your requirements and expectations</li>
+            <li>Set a realistic budget based on project complexity</li>
+            <li>Include any preferred skills or technologies</li>
+            <li>Mention your timeline expectations</li>
+            <li>Be clear about deliverables and milestones</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

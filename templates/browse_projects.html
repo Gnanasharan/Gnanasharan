@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Projects - FreelanceHub{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 30px;">Browse Available Projects</h1>
+
+<div style="text-align: center; margin-bottom: 30px;">
+    <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+
+{% if projects %}
+    <p style="color: #7f8c8d; margin-bottom: 30px;">
+        Found {{ projects|length }} available project{{ 's' if projects|length != 1 else '' }}. 
+        Click "Place Bid" to submit your proposal.
+    </p>
+    
+    {% for project in projects %}
+        <div class="card">
+            <div class="card-header">
+                {{ project.title }}
+                <span class="status open">Open</span>
+            </div>
+            <div class="card-body">
+                <p class="project-meta">Posted by: {{ project.client_name }}</p>
+                <p style="margin: 15px 0;">{{ project.description }}</p>
+                <p class="budget">Budget: ${{ "%.2f"|format(project.budget) }}</p>
+                
+                <div style="margin-top: 20px;">
+                    {% if project.id in bid_project_ids %}
+                        <span class="btn btn-secondary" style="cursor: not-allowed;">Already Bid</span>
+                    {% else %}
+                        <a href="{{ url_for('place_bid', project_id=project.id) }}" class="btn">Place Bid</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h3>No projects available</h3>
+            <p>There are currently no open projects available for bidding.</p>
+            <p>Check back later for new opportunities!</p>
+            <a href="{{ url_for('freelancer_dashboard') }}" class="btn">Return to Dashboard</a>
+        </div>
+    </div>
+{% endif %}
+
+<div style="margin-top: 40px; padding: 20px; background-color: #e8f4f8; border-radius: 8px;">
+    <h4 style="color: #2c3e50; margin-bottom: 10px;">Tips for Successful Bidding</h4>
+    <ul style="color: #7f8c8d; margin-left: 20px;">
+        <li>Read the project description carefully and understand all requirements</li>
+        <li>Provide a competitive but realistic bid amount</li>
+        <li>Offer a clear timeline for project completion</li>
+        <li>Highlight your relevant skills and experience</li>
+        <li>Be professional and responsive in your communications</li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Project - FreelanceHub{% endblock %}
+
+{% block content %}
+<h1 style="color: #2c3e50; margin-bottom: 30px;">Submit Completed Project</h1>
+
+<div class="card" style="margin-bottom: 30px;">
+    <div class="card-header">
+        Project: {{ project.title }}
+    </div>
+    <div class="card-body">
+        <p class="project-meta">Client: {{ project.client_name }}</p>
+        <p style="margin: 15px 0;"><strong>Description:</strong></p>
+        <p>{{ project.description }}</p>
+        <p class="budget" style="margin-top: 15px;">Budget: ${{ "%.2f"|format(project.budget) }}</p>
+    </div>
+</div>
+
+<div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Mark Project as Completed</h2>
+    
+    <div style="margin-bottom: 30px; padding: 20px; background-color: #e8f4f8; border-radius: 8px;">
+        <h4 style="color: #2c3e50; margin-bottom: 10px;">Before Submitting</h4>
+        <p style="color: #7f8c8d;">Please ensure that:</p>
+        <ul style="color: #7f8c8d; margin-left: 20px; margin-top: 10px;">
+            <li>All project requirements have been completed</li>
+            <li>You have delivered all agreed-upon deliverables</li>
+            <li>The client has received and can access your work</li>
+            <li>Any final revisions have been made</li>
+            <li>You are ready for the client to review your work</li>
+        </ul>
+    </div>
+    
+    <form method="POST">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <p style="color: #2c3e50; font-size: 16px;">
+                By clicking "Submit Project", you confirm that the work is complete and ready for client review.
+            </p>
+        </div>
+        
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="Submit Project" class="btn btn-success"
+                   onclick="return confirm('Are you sure the project is complete and ready for submission?')">
+            <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 30px; padding: 20px; background-color: #fff3cd; border-radius: 8px;">
+        <h4 style="color: #856404; margin-bottom: 10px;">What Happens Next?</h4>
+        <ul style="color: #856404; margin-left: 20px;">
+            <li>The project status will be marked as "Completed"</li>
+            <li>The client will be notified of the completion</li>
+            <li>The client can then review your work and provide feedback</li>
+            <li>You may receive a review and rating from the client</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
