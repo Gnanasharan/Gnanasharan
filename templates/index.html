@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to FreelancerHub</h1>
+        <p class="hero-subtitle">Connect with talented freelancers and find amazing projects</p>
+        
+        {% if not session.user_id %}
+            <div class="hero-buttons">
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+            </div>
+        {% else %}
+            <div class="hero-buttons">
+                {% if session.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Go to Admin Dashboard</a>
+                {% elif session.role == 'user' %}
+                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                {% elif session.role == 'freelancer' %}
+                    <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2>How It Works</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>For Clients</h3>
+                <ul>
+                    <li>Post your projects with detailed descriptions</li>
+                    <li>Receive bids from qualified freelancers</li>
+                    <li>Choose the best freelancer for your project</li>
+                    <li>Leave reviews and ratings</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>For Freelancers</h3>
+                <ul>
+                    <li>Browse available projects</li>
+                    <li>Submit competitive bids</li>
+                    <li>Work on exciting projects</li>
+                    <li>Build your reputation</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Admin Oversight</h3>
+                <ul>
+                    <li>Approve freelancer registrations</li>
+                    <li>Monitor platform activity</li>
+                    <li>Manage users and projects</li>
+                    <li>Ensure quality control</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Freelancer Hiring Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="{{ url_for('index') }}" class="nav-brand">FreelancerHub</a>
+                <div class="nav-links">
+                    {% if session.user_id %}
+                        <span class="nav-welcome">Welcome, {{ session.name }}!</span>
+                        {% if session.role == 'admin' %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Admin Dashboard</a>
+                        {% elif session.role == 'user' %}
+                            <a href="{{ url_for('user_dashboard') }}" class="nav-link">Dashboard</a>
+                            <a href="{{ url_for('add_project') }}" class="nav-link">Add Project</a>
+                        {% elif session.role == 'freelancer' %}
+                            <a href="{{ url_for('freelancer_dashboard') }}" class="nav-link">Dashboard</a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                        <a href="{{ url_for('register') }}" class="nav-link">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 FreelancerHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

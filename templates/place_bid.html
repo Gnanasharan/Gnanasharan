@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Place Bid - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Place Bid on Project</h2>
+        <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <div class="project-summary">
+        <div class="project-card">
+            <h3>{{ project.title }}</h3>
+            <p><strong>Client:</strong> {{ project.client_name }}</p>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+            <p><strong>Posted:</strong> {{ project.created_at }}</p>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h3>Submit Your Bid</h3>
+        <form method="POST" class="form">
+            <div class="form-group">
+                <label for="bid_amount">Your Bid Amount ($):</label>
+                <input type="number" id="bid_amount" name="bid_amount" step="0.01" min="0" required 
+                       placeholder="Enter your bid amount">
+                <small class="form-help">Consider the project complexity and your experience when setting the price.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="timeline">Estimated Timeline:</label>
+                <input type="text" id="timeline" name="timeline" required 
+                       placeholder="e.g., 2 weeks, 1 month, 3-5 days">
+                <small class="form-help">Provide a realistic timeline for project completion.</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit Bid</button>
+                <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
