@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="text-center mb-2">
+    <h1 class="text-blue">Create Your Account</h1>
+    <p>Join FreelancerHub as a client or freelancer</p>
+</div>
+
+<div style="max-width: 500px; margin: 0 auto;">
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label for="user_type">Account Type:</label>
+                <select name="user_type" id="user_type" required>
+                    <option value="">Select account type</option>
+                    <option value="user">Client (Post projects)</option>
+                    <option value="freelancer">Freelancer (Work on projects)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-1">
+            <p>Already have an account? <a href="{{ url_for('login') }}" class="text-blue">Login here</a></p>
+        </div>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>Important Notes:</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Clients:</strong> Can register and login immediately to start posting projects.</li>
+            <li><strong>Freelancers:</strong> Must wait for admin approval before they can login and bid on projects.</li>
+            <li><strong>Admin Login:</strong> Use username "admin" with the default password to access admin features.</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

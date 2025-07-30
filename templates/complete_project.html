@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Complete Project - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="mb-2">
+    <h1 class="text-blue">Mark Project as Complete</h1>
+    <div class="card">
+        <h3>Project: {{ project.title }}</h3>
+        <p><strong>Client:</strong> {{ project.client_name }}</p>
+        <p><strong>Description:</strong> {{ project.description }}</p>
+        <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+    </div>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card">
+        <h3>Project Completion</h3>
+        <p>You are about to mark this project as completed. Please ensure that:</p>
+        
+        <ul style="margin-left: 20px; margin-bottom: 2rem;">
+            <li>All project requirements have been fulfilled</li>
+            <li>All deliverables have been provided to the client</li>
+            <li>The client has reviewed and approved your work</li>
+            <li>Any final revisions have been completed</li>
+        </ul>
+        
+        <form method="POST">
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" style="width: 100%;"
+                        onclick="return confirm('Are you sure you want to mark this project as completed? This action cannot be undone.')">
+                    Mark Project as Complete
+                </button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-1">
+            <a href="{{ url_for('freelancer_dashboard') }}" class="text-blue">Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>What Happens Next?</h3>
+        <p>After marking the project as complete:</p>
+        <ol style="margin-left: 20px;">
+            <li><strong>Client Notification:</strong> The client will be notified that the project is complete</li>
+            <li><strong>Review Process:</strong> The client can review your work and provide feedback</li>
+            <li><strong>Rating System:</strong> The client may leave a rating and review for your work</li>
+            <li><strong>Payment:</strong> Payment processing will be initiated according to the agreed terms</li>
+            <li><strong>Portfolio:</strong> This completed project can be added to your portfolio (with client permission)</li>
+        </ol>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>Professional Tips</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Quality Assurance:</strong> Double-check all deliverables before marking as complete</li>
+            <li><strong>Documentation:</strong> Provide clear documentation or instructions if applicable</li>
+            <li><strong>Follow-up:</strong> Be available for any questions or minor adjustments</li>
+            <li><strong>Professionalism:</strong> Maintain professional communication throughout the process</li>
+            <li><strong>Future Work:</strong> A job well done often leads to repeat business and referrals</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

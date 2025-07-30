@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Place Bid - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="mb-2">
+    <h1 class="text-blue">Place Your Bid</h1>
+    <div class="card">
+        <h3>Project: {{ project.title }}</h3>
+        <p><strong>Client:</strong> {{ project.client_name }}</p>
+        <p><strong>Description:</strong> {{ project.description }}</p>
+        <p><strong>Client Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+        <p><strong>Status:</strong> <span class="text-blue">{{ project.status|title }}</span></p>
+    </div>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card">
+        <h3>Submit Your Bid</h3>
+        <form method="POST">
+            <div class="form-group">
+                <label for="bid_amount">Your Bid Amount (USD):</label>
+                <input type="number" name="bid_amount" id="bid_amount" step="0.01" min="1" required 
+                       placeholder="Enter your bid amount">
+                <small class="text-gray">Consider the project complexity and your skills when setting your bid amount.</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="timeline">Estimated Timeline:</label>
+                <input type="text" name="timeline" id="timeline" required 
+                       placeholder="e.g., 2 weeks, 1 month, 3-5 business days">
+                <small class="text-gray">Provide a realistic timeline for project completion.</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn" style="width: 100%;">Submit Bid</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-1">
+            <a href="{{ url_for('freelancer_dashboard') }}" class="text-blue">Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>Bidding Tips</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Competitive Pricing:</strong> Research similar projects and price competitively while ensuring fair compensation.</li>
+            <li><strong>Realistic Timeline:</strong> Provide an achievable timeline that accounts for project complexity and your availability.</li>
+            <li><strong>Quality Matters:</strong> Focus on delivering quality work rather than just competing on price.</li>
+            <li><strong>Communication:</strong> Be prepared to answer client questions and provide clarifications.</li>
+            <li><strong>Portfolio:</strong> Ensure your profile showcases relevant work and skills for this project.</li>
+        </ul>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>Next Steps</h3>
+        <p>After submitting your bid:</p>
+        <ol style="margin-left: 20px;">
+            <li>The client will review all received bids</li>
+            <li>You'll be notified if your bid is selected</li>
+            <li>If selected, you can start working on the project</li>
+            <li>Mark the project as complete when finished</li>
+            <li>Receive payment and feedback from the client</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

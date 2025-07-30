@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}View Bids - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="mb-2">
+    <h1 class="text-blue">Bids for: {{ project.title }}</h1>
+    <div class="card">
+        <h3>Project Details</h3>
+        <p><strong>Description:</strong> {{ project.description }}</p>
+        <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+        <p><strong>Status:</strong> 
+            {% if project.status == 'open' %}
+                <span class="text-blue">Open for bids</span>
+            {% elif project.status == 'in_progress' %}
+                <span class="text-success">In Progress</span>
+            {% elif project.status == 'completed' %}
+                <span class="text-success">Completed</span>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="dashboard-header">
+    <h2 class="text-blue">Received Bids ({{ bids|length }})</h2>
+    <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+{% if bids %}
+    <div class="grid grid-2">
+        {% for bid in bids %}
+        <div class="card">
+            <h4 class="text-blue">{{ bid.freelancer_name }}</h4>
+            <div class="mb-1">
+                <p><strong>Bid Amount:</strong> <span class="text-success">${{ "%.2f"|format(bid.bid_amount) }}</span></p>
+                <p><strong>Timeline:</strong> {{ bid.timeline }}</p>
+                <p><strong>Status:</strong> 
+                    {% if bid.status == 'pending' %}
+                        <span class="text-blue">Pending Review</span>
+                    {% elif bid.status == 'accepted' %}
+                        <span class="text-success">Accepted</span>
+                    {% elif bid.status == 'rejected' %}
+                        <span class="text-danger">Rejected</span>
+                    {% endif %}
+                </p>
+            </div>
+            
+            {% if bid.status == 'pending' and project.status == 'open' %}
+                <div class="mt-1">
+                    <a href="{{ url_for('select_bid', bid_id=bid.id) }}" 
+                       class="btn btn-success"
+                       onclick="return confirm('Are you sure you want to select this bid? This will reject all other bids for this project.')">
+                       Select This Bid
+                    </a>
+                </div>
+            {% elif bid.status == 'accepted' %}
+                <div class="mt-1">
+                    <span class="btn btn-success" style="cursor: default;">Selected Freelancer</span>
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card text-center">
+        <h3>No Bids Yet</h3>
+        <p class="text-gray mb-1">Your project hasn't received any bids yet. This is normal for new projects.</p>
+        <p class="text-gray">Freelancers will start bidding once they discover your project. You can:</p>
+        <ul style="text-align: left; margin: 1rem 0; padding-left: 2rem;">
+            <li>Wait for freelancers to find and bid on your project</li>
+            <li>Check back regularly for new bids</li>
+            <li>Consider adjusting your budget or description if needed</li>
+        </ul>
+        <a href="{{ url_for('user_dashboard') }}" class="btn">Return to Dashboard</a>
+    </div>
+{% endif %}
+
+{% if project.status == 'in_progress' %}
+<div class="card mt-2">
+    <h3 class="text-success">Project In Progress</h3>
+    <p>Your project has been assigned to a freelancer and is currently in progress. The freelancer will notify you when the work is completed.</p>
+    {% for bid in bids %}
+        {% if bid.status == 'accepted' %}
+            <p><strong>Assigned to:</strong> {{ bid.freelancer_name }}</p>
+            <p><strong>Agreed Amount:</strong> ${{ "%.2f"|format(bid.bid_amount) }}</p>
+            <p><strong>Timeline:</strong> {{ bid.timeline }}</p>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if project.status == 'completed' %}
+<div class="card mt-2">
+    <h3 class="text-success">Project Completed</h3>
+    <p>Your project has been completed! You can now add a review for the freelancer's work.</p>
+    <a href="{{ url_for('add_review', project_id=project.id) }}" class="btn btn-success">Add Review</a>
+</div>
+{% endif %}
+{% endblock %}

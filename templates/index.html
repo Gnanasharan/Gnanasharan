@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-blue mb-2">Welcome to FreelancerHub</h1>
+    <p class="mb-2">Connect talented freelancers with exciting projects</p>
+    
+    <div class="grid grid-3 mt-2">
+        <div class="card text-center">
+            <h3>For Clients</h3>
+            <p>Post your projects and find the perfect freelancer to bring your ideas to life.</p>
+            <a href="{{ url_for('register') }}" class="btn">Get Started as Client</a>
+        </div>
+        
+        <div class="card text-center">
+            <h3>For Freelancers</h3>
+            <p>Discover amazing projects and showcase your skills to potential clients.</p>
+            <a href="{{ url_for('register') }}" class="btn">Join as Freelancer</a>
+        </div>
+        
+        <div class="card text-center">
+            <h3>Admin Panel</h3>
+            <p>Manage the platform, approve freelancers, and oversee all activities.</p>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Admin Login</a>
+        </div>
+    </div>
+    
+    {% if not session.user_id and not session.freelancer_id %}
+    <div class="mt-2">
+        <h2 class="text-blue mb-1">How It Works</h2>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3>1. Register & Login</h3>
+                <p>Sign up as a client or freelancer. Freelancers need admin approval before they can start bidding.</p>
+            </div>
+            <div class="card">
+                <h3>2. Post or Find Projects</h3>
+                <p>Clients post projects with descriptions and budgets. Freelancers browse and find projects that match their skills.</p>
+            </div>
+            <div class="card">
+                <h3>3. Place & Review Bids</h3>
+                <p>Freelancers submit bids with their proposed cost and timeline. Clients review and select the best bid.</p>
+            </div>
+            <div class="card">
+                <h3>4. Complete & Review</h3>
+                <p>Freelancers complete the work and submit deliverables. Clients review the work and provide feedback.</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
