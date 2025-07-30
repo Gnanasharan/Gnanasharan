@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Place Bid - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2>Place Bid</h2>
+        
+        <div class="project-summary">
+            <h3>Project: {{ project.title }}</h3>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+            <p><strong>Posted:</strong> {{ project.created_at }}</p>
+        </div>
+
+        <form method="POST" class="bid-form">
+            <div class="form-group">
+                <label for="bid_amount">Your Bid Amount ($):</label>
+                <input type="number" id="bid_amount" name="bid_amount" step="0.01" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="timeline">Timeline:</label>
+                <input type="text" id="timeline" name="timeline" placeholder="e.g., 2 weeks, 1 month, etc." required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Bid</button>
+                <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

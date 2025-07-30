@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Add Review - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2>Add Review for Project</h2>
+        
+        <div class="project-summary">
+            <h3>Project: {{ project.title }}</h3>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+        </div>
+
+        <form method="POST" class="review-form">
+            <div class="form-group">
+                <label for="rating">Rating (1-5 stars):</label>
+                <select id="rating" name="rating" required>
+                    <option value="">Select Rating</option>
+                    <option value="1">1 Star - Poor</option>
+                    <option value="2">2 Stars - Fair</option>
+                    <option value="3">3 Stars - Good</option>
+                    <option value="4">4 Stars - Very Good</option>
+                    <option value="5">5 Stars - Excellent</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="5" placeholder="Share your experience with this freelancer..." required></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+                <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
