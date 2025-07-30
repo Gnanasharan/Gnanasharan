@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h2>Welcome, {{ session.username }}!</h2>
+        <a href="{{ url_for('add_project') }}" class="btn btn-primary">Add New Project</a>
+    </div>
+
+    <div class="dashboard-content">
+        <h3>My Projects</h3>
+        {% if projects %}
+            <div class="projects-grid">
+                {% for project in projects %}
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>{{ project.title }}</h4>
+                            <span class="status status-{{ project.status }}">{{ project.status }}</span>
+                        </div>
+                        <div class="project-details">
+                            <p><strong>Description:</strong> {{ project.description }}</p>
+                            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+                            <p><strong>Created:</strong> {{ project.created_at }}</p>
+                        </div>
+                        <div class="project-actions">
+                            {% if project.status == 'open' %}
+                                <a href="{{ url_for('view_bids', project_id=project.id) }}" class="btn btn-secondary">View Bids</a>
+                            {% elif project.status == 'in_progress' %}
+                                <span class="text-info">Project in progress</span>
+                            {% elif project.status == 'completed' %}
+                                <a href="{{ url_for('add_review', project_id=project.id) }}" class="btn btn-primary">Add Review</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>You haven't created any projects yet.</p>
+                <a href="{{ url_for('add_project') }}" class="btn btn-primary">Create Your First Project</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

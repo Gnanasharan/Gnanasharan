@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Freelancer Dashboard - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h2>Welcome, {{ session.username }}!</h2>
+    </div>
+
+    <div class="dashboard-content">
+        <!-- Available Projects Section -->
+        <div class="dashboard-section">
+            <h3>Available Projects</h3>
+            {% if available_projects %}
+                <div class="projects-grid">
+                    {% for project in available_projects %}
+                        <div class="project-card">
+                            <div class="project-header">
+                                <h4>{{ project.title }}</h4>
+                                <span class="status status-{{ project.status }}">{{ project.status }}</span>
+                            </div>
+                            <div class="project-details">
+                                <p><strong>Description:</strong> {{ project.description }}</p>
+                                <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+                                <p><strong>Posted:</strong> {{ project.created_at }}</p>
+                            </div>
+                            <div class="project-actions">
+                                <a href="{{ url_for('place_bid', project_id=project.id) }}" class="btn btn-primary">Place Bid</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No available projects at the moment.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- My Bids Section -->
+        <div class="dashboard-section">
+            <h3>My Bids</h3>
+            {% if my_bids %}
+                <div class="bids-grid">
+                    {% for bid in my_bids %}
+                        <div class="bid-card">
+                            <div class="bid-header">
+                                <h4>{{ bid.project_title }}</h4>
+                                <span class="status status-{{ bid.status }}">{{ bid.status }}</span>
+                            </div>
+                            <div class="bid-details">
+                                <p><strong>My Bid:</strong> ${{ "%.2f"|format(bid.bid_amount) }}</p>
+                                <p><strong>Project Budget:</strong> ${{ "%.2f"|format(bid.project_budget) }}</p>
+                                <p><strong>Timeline:</strong> {{ bid.timeline }}</p>
+                                <p><strong>Submitted:</strong> {{ bid.created_at }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>You haven't placed any bids yet.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Accepted Projects Section -->
+        <div class="dashboard-section">
+            <h3>My Accepted Projects</h3>
+            {% if accepted_projects %}
+                <div class="projects-grid">
+                    {% for project in accepted_projects %}
+                        <div class="project-card">
+                            <div class="project-header">
+                                <h4>{{ project.title }}</h4>
+                                <span class="status status-{{ project.status }}">{{ project.status }}</span>
+                            </div>
+                            <div class="project-details">
+                                <p><strong>Description:</strong> {{ project.description }}</p>
+                                <p><strong>Accepted Bid:</strong> ${{ "%.2f"|format(project.bid_amount) }}</p>
+                                <p><strong>Timeline:</strong> {{ project.timeline }}</p>
+                                <p><strong>Project Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+                            </div>
+                            <div class="project-actions">
+                                {% if project.status == 'in_progress' %}
+                                    <a href="{{ url_for('submit_project', project_id=project.id) }}" class="btn btn-primary">Submit Project</a>
+                                {% elif project.status == 'completed' %}
+                                    <span class="text-success">✓ Project Completed</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No accepted projects yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

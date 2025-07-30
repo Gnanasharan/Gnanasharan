@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Project - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2>Submit Completed Project</h2>
+        
+        <div class="project-summary">
+            <h3>Project: {{ project.title }}</h3>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+        </div>
+
+        <form method="POST" class="submit-form">
+            <div class="form-group">
+                <label for="completion_details">Completion Details:</label>
+                <textarea id="completion_details" name="completion_details" rows="5" placeholder="Describe what was completed, any deliverables, final notes..." required></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Mark as Completed</button>
+                <a href="{{ url_for('freelancer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

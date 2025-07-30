@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Freelancer Platform</h1>
+        <p>Connect with talented freelancers or find amazing projects to work on.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2>How It Works</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>For Clients</h3>
+                <p>Post your projects, receive bids from talented freelancers, and choose the best fit for your needs.</p>
+            </div>
+            <div class="feature-card">
+                <h3>For Freelancers</h3>
+                <p>Browse available projects, place competitive bids, and showcase your skills to potential clients.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Secure & Reliable</h3>
+                <p>Our platform ensures secure transactions and reliable project completion with review systems.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
