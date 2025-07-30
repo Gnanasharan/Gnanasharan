@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Freelancer Dashboard - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1 class="text-blue">Freelancer Dashboard</h1>
+    <span class="text-gray">Find and bid on exciting projects</span>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-number">{{ projects|length }}</div>
+        <div class="stat-label">Available Projects</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ my_bids|length }}</div>
+        <div class="stat-label">My Bids</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ my_bids|selectattr("status", "equalto", "accepted")|list|length }}</div>
+        <div class="stat-label">Accepted Bids</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ my_bids|selectattr("status", "equalto", "pending")|list|length }}</div>
+        <div class="stat-label">Pending Bids</div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <h3>Available Projects</h3>
+        
+        {% if projects %}
+            {% for project in projects %}
+            <div class="card" style="margin-bottom: 1rem;">
+                <h4 class="text-blue">{{ project.title }}</h4>
+                <p class="text-gray mb-1">Posted by: {{ project.client_name }}</p>
+                <p class="mb-1">{{ project.description }}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong class="text-success">Budget: ${{ "%.2f"|format(project.budget) }}</strong>
+                    <a href="{{ url_for('place_bid', project_id=project.id) }}" class="btn">Place Bid</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center">
+                <p class="text-gray">No projects available at the moment.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>My Bids</h3>
+        
+        {% if my_bids %}
+            {% for bid in my_bids %}
+            <div class="card" style="margin-bottom: 1rem;">
+                <h4 class="text-blue">{{ bid.project_title }}</h4>
+                <div class="mb-1">
+                    <strong>Bid Amount:</strong> ${{ "%.2f"|format(bid.bid_amount) }}<br>
+                    <strong>Timeline:</strong> {{ bid.timeline }}<br>
+                    <strong>Status:</strong> 
+                    {% if bid.status == 'pending' %}
+                        <span class="text-blue">Pending</span>
+                    {% elif bid.status == 'accepted' %}
+                        <span class="text-success">Accepted</span>
+                    {% elif bid.status == 'rejected' %}
+                        <span class="text-danger">Rejected</span>
+                    {% endif %}
+                </div>
+                {% if bid.status == 'accepted' %}
+                    <a href="{{ url_for('complete_project', project_id=bid.project_id) }}" class="btn btn-success">Mark as Complete</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center">
+                <p class="text-gray">You haven't placed any bids yet.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>Quick Actions</h3>
+    <div class="grid grid-3">
+        <div class="text-center">
+            <h4>Browse Projects</h4>
+            <p>Find projects that match your skills and interests.</p>
+            <a href="#" onclick="document.querySelector('.card').scrollIntoView()" class="btn">Browse Projects</a>
+        </div>
+        <div class="text-center">
+            <h4>Manage Bids</h4>
+            <p>Track your submitted bids and their current status.</p>
+            <a href="#" onclick="document.querySelectorAll('.card')[2].scrollIntoView()" class="btn btn-secondary">View My Bids</a>
+        </div>
+        <div class="text-center">
+            <h4>Portfolio</h4>
+            <p>Showcase your work and skills to potential clients.</p>
+            <button class="btn btn-secondary" disabled>Coming Soon</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

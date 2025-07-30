@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Post New Project - Freelancer Platform{% endblock %}
+
+{% block content %}
+<div class="text-center mb-2">
+    <h1 class="text-blue">Post a New Project</h1>
+    <p>Share your project details and start receiving bids from freelancers</p>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Project Title:</label>
+                <input type="text" name="title" id="title" required 
+                       placeholder="e.g., Build a responsive website for my business">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Project Description:</label>
+                <textarea name="description" id="description" required 
+                          placeholder="Provide detailed information about your project requirements, timeline, and any specific skills needed..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="budget">Budget (USD):</label>
+                <input type="number" name="budget" id="budget" step="0.01" min="1" required 
+                       placeholder="1000.00">
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn" style="width: 100%;">Post Project</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-1">
+            <a href="{{ url_for('user_dashboard') }}" class="text-blue">Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="card mt-1">
+        <h3>Tips for a Great Project Post</h3>
+        <ul style="margin-left: 20px;">
+            <li><strong>Clear Title:</strong> Use a descriptive title that clearly explains what you need.</li>
+            <li><strong>Detailed Description:</strong> Include all requirements, expectations, and any specific skills needed.</li>
+            <li><strong>Realistic Budget:</strong> Set a fair budget that reflects the complexity of your project.</li>
+            <li><strong>Timeline:</strong> Mention any deadlines or preferred completion timeframes in the description.</li>
+            <li><strong>Communication:</strong> Be responsive to freelancer questions and clarifications.</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
