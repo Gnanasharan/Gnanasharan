@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h2>Admin Dashboard</h2>
+    </div>
+
+    <div class="dashboard-tabs">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="showTab('pending')">Pending Approvals</button>
+            <button class="tab-button" onclick="showTab('users')">Users</button>
+            <button class="tab-button" onclick="showTab('freelancers')">Freelancers</button>
+            <button class="tab-button" onclick="showTab('projects')">Projects</button>
+            <button class="tab-button" onclick="showTab('bids')">Bids</button>
+            <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
+        </div>
+
+        <div id="pending" class="tab-content active">
+            <h3>Pending Freelancer Approvals</h3>
+            {% if pending_freelancers %}
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for freelancer in pending_freelancers %}
+                                <tr>
+                                    <td>{{ freelancer.id }}</td>
+                                    <td>{{ freelancer.name }}</td>
+                                    <td>{{ freelancer.username }}</td>
+                                    <td>{{ freelancer.email }}</td>
+                                    <td>
+                                        <a href="{{ url_for('approve_freelancer', freelancer_id=freelancer.id) }}" 
+                                           class="btn btn-primary btn-sm"
+                                           onclick="return confirm('Approve this freelancer?')">Approve</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No pending freelancer approvals.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="users" class="tab-content">
+            <h3>All Users (Clients)</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.role }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="freelancers" class="tab-content">
+            <h3>All Freelancers</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for freelancer in freelancers %}
+                            <tr>
+                                <td>{{ freelancer.id }}</td>
+                                <td>{{ freelancer.name }}</td>
+                                <td>{{ freelancer.username }}</td>
+                                <td>{{ freelancer.email }}</td>
+                                <td>
+                                    {% if freelancer.approved %}
+                                        <span class="status-badge status-approved">Approved</span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="projects" class="tab-content">
+            <h3>All Projects</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Client</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                            <tr>
+                                <td>{{ project.id }}</td>
+                                <td>{{ project.title }}</td>
+                                <td>{{ project.client_name }}</td>
+                                <td>${{ "%.2f"|format(project.budget) }}</td>
+                                <td><span class="status-badge status-{{ project.status }}">{{ project.status.title() }}</span></td>
+                                <td>{{ project.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="bids" class="tab-content">
+            <h3>All Bids</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Project</th>
+                            <th>Freelancer</th>
+                            <th>Client</th>
+                            <th>Amount</th>
+                            <th>Timeline</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bid in bids %}
+                            <tr>
+                                <td>{{ bid.id }}</td>
+                                <td>{{ bid.project_title }}</td>
+                                <td>{{ bid.freelancer_name }}</td>
+                                <td>{{ bid.client_name }}</td>
+                                <td>${{ "%.2f"|format(bid.bid_amount) }}</td>
+                                <td>{{ bid.timeline }}</td>
+                                <td><span class="status-badge status-{{ bid.status }}">{{ bid.status.title() }}</span></td>
+                                <td>{{ bid.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="reviews" class="tab-content">
+            <h3>All Reviews</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Project</th>
+                            <th>Client</th>
+                            <th>Freelancer</th>
+                            <th>Rating</th>
+                            <th>Feedback</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for review in reviews %}
+                            <tr>
+                                <td>{{ review.id }}</td>
+                                <td>{{ review.project_title }}</td>
+                                <td>{{ review.client_name }}</td>
+                                <td>{{ review.freelancer_name }}</td>
+                                <td>{{ review.rating }}/5 ⭐</td>
+                                <td>{{ review.feedback[:50] }}{% if review.feedback|length > 50 %}...{% endif %}</td>
+                                <td>{{ review.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(tabName) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Remove active class from all tab buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => button.classList.remove('active'));
+    
+    // Show selected tab content
+    document.getElementById(tabName).classList.add('active');
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+}
+</script>
+{% endblock %}

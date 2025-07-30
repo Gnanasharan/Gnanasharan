@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2>Create Account</h2>
+        <form method="POST" class="form">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Register as:</label>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="user">Client (Post projects)</option>
+                    <option value="freelancer">Freelancer (Bid on projects)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+        
+        <div class="form-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+        </div>
+        
+        <div class="info-box">
+            <h4>Registration Notes:</h4>
+            <ul>
+                <li><strong>Clients:</strong> Can register and start posting projects immediately</li>
+                <li><strong>Freelancers:</strong> Registration requires admin approval before login</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

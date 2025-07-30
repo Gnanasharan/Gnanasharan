@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Freelancer Dashboard - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h2>Freelancer Dashboard</h2>
+    </div>
+
+    <div class="dashboard-tabs">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="showTab('available')">Available Projects</button>
+            <button class="tab-button" onclick="showTab('mybids')">My Bids</button>
+        </div>
+
+        <div id="available" class="tab-content active">
+            <h3>Available Projects</h3>
+            {% if projects %}
+                <div class="projects-grid">
+                    {% for project in projects %}
+                        <div class="project-card">
+                            <div class="project-header">
+                                <h4>{{ project.title }}</h4>
+                                <span class="project-budget">Budget: ${{ "%.2f"|format(project.budget) }}</span>
+                            </div>
+                            
+                            <div class="project-content">
+                                <p class="project-description">{{ project.description }}</p>
+                                <p class="project-client"><strong>Client:</strong> {{ project.client_name }}</p>
+                                <p class="project-date"><strong>Posted:</strong> {{ project.created_at }}</p>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="{{ url_for('place_bid', project_id=project.id) }}" class="btn btn-primary">Place Bid</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No projects available at the moment.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="mybids" class="tab-content">
+            <h3>My Bids</h3>
+            {% if my_bids %}
+                <div class="bids-list">
+                    {% for bid in my_bids %}
+                        <div class="bid-card">
+                            <div class="bid-header">
+                                <h4>{{ bid.project_title }}</h4>
+                                <span class="status-badge status-{{ bid.status }}">{{ bid.status.title() }}</span>
+                            </div>
+                            
+                            <div class="bid-content">
+                                <p><strong>Client:</strong> {{ bid.client_name }}</p>
+                                <p><strong>Bid Amount:</strong> ${{ "%.2f"|format(bid.bid_amount) }}</p>
+                                <p><strong>Timeline:</strong> {{ bid.timeline }}</p>
+                                <p><strong>Submitted:</strong> {{ bid.created_at }}</p>
+                            </div>
+                            
+                            {% if bid.status == 'accepted' %}
+                                <div class="bid-actions">
+                                    <a href="{{ url_for('submit_project', project_id=bid.project_id) }}" class="btn btn-primary">Submit Project</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>You haven't placed any bids yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(tabName) {
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => content.classList.remove('active'));
+    
+    // Remove active class from all tab buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => button.classList.remove('active'));
+    
+    // Show selected tab content
+    document.getElementById(tabName).classList.add('active');
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+}
+</script>
+{% endblock %}

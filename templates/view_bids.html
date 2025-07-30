@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}View Bids - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Bids for: {{ project.title }}</h2>
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <div class="project-summary">
+        <div class="project-card">
+            <h3>Project Details</h3>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+            <p><strong>Status:</strong> {{ project.status.title() }}</p>
+        </div>
+    </div>
+
+    <div class="bids-section">
+        <h3>Received Bids ({{ bids|length }})</h3>
+        
+        {% if bids %}
+            <div class="bids-list">
+                {% for bid in bids %}
+                    <div class="bid-card">
+                        <div class="bid-header">
+                            <h4>{{ bid.freelancer_name }}</h4>
+                            <span class="status-badge status-{{ bid.status }}">{{ bid.status.title() }}</span>
+                        </div>
+                        
+                        <div class="bid-content">
+                            <div class="bid-details">
+                                <p><strong>Bid Amount:</strong> ${{ "%.2f"|format(bid.bid_amount) }}</p>
+                                <p><strong>Timeline:</strong> {{ bid.timeline }}</p>
+                                <p><strong>Email:</strong> {{ bid.freelancer_email }}</p>
+                                <p><strong>Submitted:</strong> {{ bid.created_at }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if bid.status == 'pending' and project.status == 'open' %}
+                            <div class="bid-actions">
+                                <a href="{{ url_for('select_bid', bid_id=bid.id) }}" 
+                                   class="btn btn-primary"
+                                   onclick="return confirm('Select this bid? This action cannot be undone.')">Select This Bid</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No bids received yet. Freelancers will submit bids for your project soon.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Add Review - Freelancer Hiring Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h2>Review Completed Project</h2>
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <div class="project-summary">
+        <div class="project-card">
+            <h3>{{ project.title }}</h3>
+            <p><strong>Freelancer:</strong> {{ project.freelancer_name }}</p>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Budget:</strong> ${{ "%.2f"|format(project.budget) }}</p>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h3>Rate Your Experience</h3>
+        <form method="POST" class="form">
+            <div class="form-group">
+                <label for="rating">Rating (1-5 stars):</label>
+                <div class="rating-input">
+                    <select id="rating" name="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">1 Star - Poor</option>
+                        <option value="2">2 Stars - Below Average</option>
+                        <option value="3">3 Stars - Average</option>
+                        <option value="4">4 Stars - Good</option>
+                        <option value="5">5 Stars - Excellent</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedback">Feedback (Optional):</label>
+                <textarea id="feedback" name="feedback" rows="5" 
+                          placeholder="Share your experience working with this freelancer..."></textarea>
+                <small class="form-help">Your feedback helps other clients and freelancers improve.</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+                <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+        
+        <div class="info-box">
+            <h4>Review Guidelines:</h4>
+            <ul>
+                <li>Be honest and constructive in your feedback</li>
+                <li>Consider the quality of work, communication, and timeliness</li>
+                <li>Reviews help build trust in the freelancer community</li>
+                <li>Reviews are visible to other users on the platform</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
